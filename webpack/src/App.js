@@ -1,21 +1,46 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, PerspectiveCamera, SpotLight } from "@react-three/drei";
+import { Suspense } from "react";
 
-const Scene = () => (
-  <>
-    <OrbitControls />
-    <mesh castShadow>
-      <meshStandardMaterial color={"red"} />
-      <boxBufferGeometry/>
-    </mesh>
-  </>
-);
+const CarShow = () => {
+  return (
+    <>
+      <OrbitControls target={[0, 0.35, 0]} maxPolarAngle={1.45} />
+      <PerspectiveCamera makeDefault fov={50} position={[3, 2, 5]} />
+      <mesh castShadow>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshBasicMaterial color={"red"} />
+      </mesh>
+
+      <SpotLight
+        color={[1, 0.25, 0.7]}
+        intensity={1.5}
+        angle={0.6}
+        penumbra={0.5}
+        position={[5, 5, 0]}
+        castShadow
+        shadow-bias={-0.0001}
+      />
+      <spotLight
+        color={[0.14, 0.5, 1]}
+        intensity={2}
+        angle={0.6}
+        penumbra={0.5}
+        position={[-5, 5, 0]}
+        castShadow
+        shadow-bias={-0.0001}
+      />
+    </>
+  );
+};
 
 function App() {
   return (
-    <Canvas>
-      <Scene />
-    </Canvas>
+    <Suspense fallback={null}>
+      <Canvas shadows style={{ height: "100vh" }}>
+        <CarShow />
+      </Canvas>
+    </Suspense>
   );
 }
 
